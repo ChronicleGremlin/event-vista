@@ -31,10 +31,21 @@ const Dashboard = () => {
     try {
       setLoading(true);
       const response = await eventApi.getAllEvents();
-      setEvents(response.data);
+
+      const data = response.data;
+      console.log("Fetched events:", data);
+
+      if (Array.isArray(data)) {
+        setEvents(data);
+      } else if (data?.events && Array.isArray(data.events)) {
+        setEvents(data.events); // In case your API wraps it in an object
+      } else {
+        console.warn("Unexpected response format:", data);
+        setEvents([]); // fallback to empty array
+      }
     } catch (err) {
       console.error("Error fetching events:", err);
-      setError(err.message);
+      setError("Failed to load events. Please try again.");
     } finally {
       setLoading(false);
     }

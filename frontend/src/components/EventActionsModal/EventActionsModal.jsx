@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { eventApi, venueApi, vendorApi } from "../../services/api";
+import { eventApi, venueApi, vendorApi, clientApi } from "../../services/api";
 import Modal from "../common/Modal/Modal";
 import styles from "./EventActionsModal.module.css";
 
@@ -11,6 +11,7 @@ const EventActionsModal = ({ event, onClose, onEventUpdated }) => {
     time: event.time || "",
     venue: event.venue || null,
     vendors: event.vendors || [],
+    client: event.client || null,
     notes: event.notes || "",
   });
   const [loading, setLoading] = useState(false);
@@ -18,17 +19,20 @@ const EventActionsModal = ({ event, onClose, onEventUpdated }) => {
   const [successMessage, setSuccessMessage] = useState(null);
   const [venues, setVenues] = useState([]);
   const [vendors, setVendors] = useState([]);
+  const [clients, setClients] = useState([]);
   const [errors, setErrors] = useState({});
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [venuesResponse, vendorsResponse] = await Promise.all([
+        const [venuesResponse, vendorsResponse, clientsResponse] = await Promise.all([
           venueApi.getAllVenues(),
           vendorApi.getAllVendors(),
+          clientApi.getAllClients(),
         ]);
         setVenues(venuesResponse.data || []);
         setVendors(vendorsResponse.data || []);
+        setClients(clientsResponse.data || []);
       } catch (err) {
         console.error("Error fetching data:", err);
       }
@@ -64,6 +68,14 @@ const EventActionsModal = ({ event, onClose, onEventUpdated }) => {
         vendors: [...prev.vendors, { id: vendorId, name: selectedVendor.name }],
       }));
     }
+  };
+
+  const handleClientChange = (e) => {
+      const clientId = e.target.value;
+      setFormData((prev) => ({
+          ...prev,
+          client: clientId ? { id: parseInt(clientId) } : null,
+      }));
   };
 
   const removeVendor = (vendorId) => {
@@ -144,6 +156,11 @@ const EventActionsModal = ({ event, onClose, onEventUpdated }) => {
             {event.vendors.map((v) => v.name).join(", ")}
           </p>
         )}
+        {event.client && (
+            <p>
+                <strong>Client:</strong> 🧍 {event.client.name}
+            </p>
+            )}
         {event.notes && (
           <p>
             <strong>Notes:</strong> {event.notes}
@@ -269,6 +286,23 @@ const EventActionsModal = ({ event, onClose, onEventUpdated }) => {
             ))}
           </div>
         )}
+      </div>
+
+      <div className={styles.formGroup}>
+          <label className={styles.label}>Client</label>
+          <select
+            name="client"
+            value={formData.client?.id || ""}
+            onChange={handleClientChange}
+            className={styles.input}
+          >
+            <option value="">Select a client</option>
+            {clients.map((client) => (
+                <option key={client.id} value={client.id}>
+                    {client.name}
+                </option>
+            ))}
+          </select>
       </div>
 
       <div className={styles.formGroup}>

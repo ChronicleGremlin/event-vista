@@ -184,12 +184,17 @@ const Calendar = ({ events = [], onEventUpdated }) => {
                     ? "\nVendors: " +
                       event.vendors.map((v) => v.name).join(", ")
                     : ""
-                }${event.notes ? "\nNotes: " + event.notes : ""}`}
+                }${
+                    event.client ? " at " + event.client.name : ""
+                    }${event.notes ? "\nNotes: " + event.notes : ""}`}
               >
                 <div className={styles.eventTime}>{formatTime(event.time)}</div>
                 <div className={styles.eventName}>{event.name}</div>
                 {event.venue && (
                   <div className={styles.eventVenue}>📍 {event.venue.name}</div>
+                )}
+                {event.client && (
+                    <div className={styles.eventClient}>🧍 {event.client.name}</div>
                 )}
                 {event.vendors && event.vendors.length > 0 && (
                   <div className={styles.eventVendors}>
@@ -261,6 +266,11 @@ const Calendar = ({ events = [], onEventUpdated }) => {
                         👥 {event.vendors.map((v) => v.name).join(", ")}
                       </div>
                     )}
+                    {event.client && (
+                        <div className={styles.weekEventClient}>
+                            🧍 {event.client.name}
+                        </div>
+                    )}
                     {event.notes && (
                       <div className={styles.weekEventNotes}>
                         📝 {event.notes}
@@ -314,6 +324,11 @@ const Calendar = ({ events = [], onEventUpdated }) => {
                       {event.vendors && event.vendors.length > 0 && (
                         <div className={styles.weekEventVendors}>
                           👥 {event.vendors.map((v) => v.name).join(", ")}
+                        </div>
+                      )}
+                      {event.client && (
+                        <div className={styles.weekEventClient}>
+                            🧍 {event.client.name}
                         </div>
                       )}
                       {event.notes && (

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { eventApi, venueApi, vendorApi } from "../../services/api";
+import { eventApi, venueApi, vendorApi, clientApi } from "../../services/api";
 import "../../styles/components.css";
 import styles from "./EventForm.module.css";
 import Modal from "../../components/common/Modal/Modal";
@@ -11,11 +11,13 @@ const EventForm = ({ onSubmit, onCancel }) => {
     time: "",
     venue: null,
     vendors: [],
+    client: null,
     notes: "",
   });
 
   const [venues, setVenues] = useState([]);
   const [vendors, setVendors] = useState([]);
+  const [client, setClients] = useState([]);
   const [loading, setLoading] = useState(true);
   const [errors, setErrors] = useState({});
 
@@ -60,6 +62,26 @@ const EventForm = ({ onSubmit, onCancel }) => {
 
     fetchVendors();
   }, []);
+
+   useEffect(() => {
+       const fetchClients = async () => {
+           try {
+               const response = await clientApi.getAllClients();
+               if (response.data) {
+                   setClients(response.data);
+                   }
+               } catch (error) {
+                   console.error("Error fetching clients:", error);
+                   setErrors((prev) => ({
+                       ...prev,
+                       fetch: "Failed to load clients. Please try again.",
+                       }));
+                   } finally {
+                       setLoading(false);
+                   }
+               };
+           fetchClients();
+   }, []);
 
   const validateForm = () => {
     const newErrors = {};
@@ -112,6 +134,14 @@ const EventForm = ({ onSubmit, onCancel }) => {
     }
   };
 
+  const handleClientChange = (e) => {
+      const selectedClient = client.find((v) => v.id === parseInt(e.target.value));
+      setFormData((prev) => ({ ...prev, client: selectedClient }));
+      if (errors.client) {
+          setErrors((prev) => ({ ...prev, client: undefined }));
+          }
+      };
+
   const removeVendor = (vendorId) => {
     setFormData((prev) => ({
       ...prev,
@@ -130,6 +160,7 @@ const EventForm = ({ onSubmit, onCancel }) => {
           notes: formData.notes,
           venue: formData.venue ? { id: formData.venue.id } : null,
           vendors: formData.vendors.map((vendor) => ({ id: vendor.id })),
+          client: formData.client ? { id: formData.client.id } : null,
         };
         await eventApi.createEvent(eventData);
         onSubmit();
@@ -263,6 +294,26 @@ const EventForm = ({ onSubmit, onCancel }) => {
                 ))}
               </div>
             )}
+          </div>
+
+          <div className={styles.formGroup}>
+                  <label className="form-label">Client</label>
+                  <select
+                    name="client"
+                    value={formData.client?.id || ""}
+                    onChange={handleClientChange}
+                    className={`form-input ${errors.client ? styles.error : ""}`}
+                  >
+                    <option value="">Select a client (optional)</option>
+                    {client.map((client) => (
+                      <option key={client.id} value={client.id}>
+                        {client.name}
+                      </option>
+                    ))}
+                  </select>
+                  {errors.client && (
+                    <div className={styles.errorText}>{errors.client}</div>
+                  )}
           </div>
 
           <div className={styles.formGroup}>

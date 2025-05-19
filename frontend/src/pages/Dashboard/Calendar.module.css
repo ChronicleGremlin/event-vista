@@ -177,6 +177,12 @@
   color: white;
 }
 
+.calendarDay .eventClient {
+  font-size: 0.5rem;
+  opacity: 0.9;
+  color: white;
+}
+
 .calendarDay .calendarEvent:hover {
   transform: translateY(-1px);
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
@@ -287,6 +293,13 @@
   color: white;
 }
 
+.weekEventClient {
+  font-size: 0.7rem;
+  opacity: 0.9;
+  margin-bottom: 2px;
+  color: white;
+}
+
 .calendarEventWeek:hover {
   transform: translateY(-1px);
   box-shadow: 0 2px 3px rgba(0, 0, 0, 0.15);
@@ -383,6 +396,13 @@
   color: white;
 }
 
+.calendarDayView .weekEventClient {
+  font-size: 0.8rem;
+  opacity: 0.9;
+  margin-bottom: 3px;
+  color: white;
+}
+
 /* Button Styles */
 .calendarHeader .button {
   padding: 0.125rem 0.25rem;
@@ -423,6 +443,12 @@
   margin-top: 2px;
 }
 
+.eventClient {
+  font-size: 0.7rem;
+  color: #666;
+  margin-top: 2px;
+}
+
 .dayEventVenue {
   font-size: 0.9rem;
   color: #666;
@@ -430,6 +456,12 @@
 }
 
 .dayEventVendors {
+  font-size: 0.9rem;
+  color: #666;
+  margin-top: 4px;
+}
+
+.dayEventClient {
   font-size: 0.9rem;
   color: #666;
   margin-top: 4px;

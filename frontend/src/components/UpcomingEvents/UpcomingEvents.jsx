@@ -181,6 +181,9 @@ const UpcomingEvents = ({ events = [] }) => {
                 {event.vendors.map((vendor) => vendor.name).join(", ")}
               </div>
             )}
+            <div className={styles.eventClient}>
+                🧍 {event.client ? event.client.name : "No client set"}
+            </div>
             {event.weatherIcon ? (
               <div className={styles.eventWeather}>
                 {getWeatherEmoji(event.weatherIcon)} {event.weatherDescription},{" "}

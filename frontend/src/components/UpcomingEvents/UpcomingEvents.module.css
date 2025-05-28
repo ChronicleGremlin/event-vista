@@ -71,8 +71,3 @@
   content: "👥";
   margin-right: 0.5rem;
 }
-
-.eventClient::before {
-  content: "🧍";
-  margin-right: 0.5rem;
-}

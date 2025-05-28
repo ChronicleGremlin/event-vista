@@ -29,6 +29,7 @@ public class Client extends AbstractEntity {
     private String notes;
 
     @OneToMany(mappedBy = "client")
+    @JsonIgnore  // Prevent recursive serialization
     private List<Event> events = new ArrayList<>();
 
     @ManyToOne

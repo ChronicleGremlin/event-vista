@@ -48,8 +48,8 @@ const Calendar = ({ events = [], onEventUpdated }) => {
           return false;
         }
 
-        // Format both dates to YYYY-MM-DD for comparison
-        const eventDateStr = event.date; // Already in YYYY-MM-DD format
+        const eventDateObj = new Date(event.date);
+        const eventDateStr = eventDateObj.toISOString().split("T")[0];
         const compareDateStr = date.toISOString().split("T")[0];
 
         console.log("Comparing dates:", {

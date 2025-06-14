@@ -63,10 +63,14 @@ public class JwtAuthenticationController {
     // Register a new user
     @PostMapping("/register")
     public ResponseEntity<?> processRegistrationForm(@RequestBody @Valid RegisterFormDTO registerFormDTO) {
-        // Check if email exists
-        Optional<User> existingUser = userRepository.findByEmailAddress(registerFormDTO.getEmailAddress());
-        if (existingUser.isPresent()) {
+        // Check if email is already taken
+        if (userRepository.findByEmailAddress(registerFormDTO.getEmailAddress()).isPresent()) {
             return ResponseEntity.badRequest().body(Map.of("message", "Email is already in use!"));
+        }
+
+        // Check if username is already taken
+        if (userRepository.findByName(registerFormDTO.getUsername()).isPresent()) {
+            return ResponseEntity.badRequest().body(Map.of("message", "Username is already in use!"));
         }
 
         // Create new user

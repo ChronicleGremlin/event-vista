@@ -11,12 +11,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Table(name = "users", uniqueConstraints = {
+        @UniqueConstraint(columnNames = "emailAddress"),
+        @UniqueConstraint(columnNames = "name")
+})
 public class User extends AbstractEntity {
+
     @NotBlank
+    @Column(name = "name", nullable = false, unique = true)
     private String name;
 
     @NotBlank
     @Email
+    @Column(name = "emailAddress", nullable = false, unique = true)
     private String emailAddress;
 
     private String passwordHash;

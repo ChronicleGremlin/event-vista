@@ -58,8 +58,8 @@ const Register = () => {
         </div>
         <form className="register-form" onSubmit={handleSubmit}>
           <div className="form-group">
-            <label htmlFor="username" className="sr-only">
-              Username
+            <label htmlFor="username">
+                  Username <span className="mandatory">*</span>
             </label>
             <input
               id="username"
@@ -73,8 +73,8 @@ const Register = () => {
             />
           </div>
           <div className="form-group">
-            <label htmlFor="emailAddress" className="sr-only">
-              Email address
+             <label htmlFor="emailAddress">
+                  Email address <span className="mandatory">*</span>
             </label>
             <input
               id="emailAddress"
@@ -88,8 +88,8 @@ const Register = () => {
             />
           </div>
           <div className="form-group">
-            <label htmlFor="password" className="sr-only">
-              Password
+             <label htmlFor="password">
+                  Password <span className="mandatory">*</span>
             </label>
             <input
               id="password"
@@ -103,8 +103,8 @@ const Register = () => {
             />
           </div>
           <div className="form-group">
-            <label htmlFor="verifyPassword" className="sr-only">
-              Verify Password
+             <label htmlFor="password">
+                  Verify Password <span className="mandatory">*</span>
             </label>
             <input
               id="verifyPassword"

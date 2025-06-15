@@ -39,6 +39,10 @@ axiosInstance.interceptors.response.use(
         console.error(`Authentication error (${status}):`, data);
         localStorage.removeItem("token");
       }
+      // Attach backend error message (if any) to error.message to make it easier to handle downstream
+         if (data && data.message) {
+             error.message = data.message;
+         }
     } else if (error.request) {
       console.error("Network error:", error.message);
     }

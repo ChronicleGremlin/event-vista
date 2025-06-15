@@ -12,10 +12,12 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     //    User findByUsername(String username);
 //    User findByEmailAddress(String emailAddress);
     //changed to authenticate by email address and password. can add username later
+    Optional<Object> findByName(String name);
     Optional<User> findByEmailAddress(String emailAddress);
     Optional<User> findByVerificationToken(String token);
     boolean existsByEmailAddress(String emailAddress);
     List<User> findByEmailVerifiedTrue();
+
 
 }
 

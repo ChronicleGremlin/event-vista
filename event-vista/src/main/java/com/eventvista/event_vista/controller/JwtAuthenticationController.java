@@ -124,9 +124,15 @@ public class JwtAuthenticationController {
             }
 
             User user = userOptional.get();
+            if (user.getProvider() == AuthProvider.GOOGLE) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                        .body("This account was created using Google. Please use Google Sign-In.");
+            }
             System.out.println("Found user: " + user.getEmailAddress());
             System.out.println("Stored password hash: " + user.getPasswordHash());
             System.out.println("User verification status: " + user.isEmailVerified());
+
+
 
             // Check if email is verified
             if (!user.isEmailVerified()) {
@@ -160,7 +166,13 @@ public class JwtAuthenticationController {
 
                 Map<String, Object> response = new HashMap<>();
                 response.put("token", jwt);
-                response.put("user", user);
+                UserProfileDTO dto = new UserProfileDTO(
+                        user.getId(),
+                        user.getName(),
+                        user.getEmailAddress(),
+                        user.getPictureUrl()
+                );
+                response.put("user", dto);
                 response.put("message", "Login successful");
 
                 System.out.println("=== LOGIN ATTEMPT SUCCESS ===");

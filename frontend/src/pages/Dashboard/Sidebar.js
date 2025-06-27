@@ -1,11 +1,13 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import "./Sidebar.css"; // We'll style this later
+import "./Sidebar.css";
+import Breadcrumbs from "./Breadcrumbs";
 
 const Sidebar = () => {
   return (
     <div className="sidebar">
       <h2 className="sidebar-title">Event Vista</h2>
+      <Breadcrumbs />
       <nav className="sidebar-nav">
         <NavLink to="/dashboard" className="sidebar-link">Dashboard</NavLink>
         <NavLink to="/profile" className="sidebar-link">User Profile</NavLink>

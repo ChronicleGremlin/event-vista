@@ -7,16 +7,12 @@ import jakarta.persistence.Lob;
 
 public class UserProfileDTO {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
     private String emailAddress;
-    @Lob
     private String pictureUrl;
 
-    public UserProfileDTO() {
-    }
+    public UserProfileDTO() {}
 
     public UserProfileDTO(Integer id, String name, String emailAddress, String pictureUrl) {
         this.id = id;
@@ -39,28 +35,16 @@ public class UserProfileDTO {
         this.name = name;
     }
 
-
-
     public String getEmailAddress() {
         return emailAddress;
     }
-
     public void setEmailAddress(String emailAddress) {
         this.emailAddress = emailAddress;
     }
 
-//    public String getPictureUrl() {
-//        return pictureUrl;
-//    }
-//
-//    public void setPictureUrl(String pictureUrl) {
-//        this.pictureUrl = pictureUrl;
-//    }
-
     public String getPictureUrl() {
         return pictureUrl;
     }
-
     public void setPictureUrl(String pictureUrl) {
         this.pictureUrl = pictureUrl;
     }

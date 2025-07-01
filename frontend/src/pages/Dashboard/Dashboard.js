@@ -7,6 +7,7 @@ import { eventApi } from "../../services/api";
 import "../../styles/components.css";
 import { useNavigate } from "react-router-dom";
 import Sidebar from "./Sidebar";
+import Breadcrumbs from '../../pages/Dashboard/Breadcrumbs';
 
 const Dashboard = () => {
   const { user, logout, token } = useAuth();
@@ -116,6 +117,8 @@ const Dashboard = () => {
       width: "100%",
       boxSizing: "border-box"
       }}>
+
+      <Breadcrumbs />
       <nav className="card">
         <div className="container">
           <div

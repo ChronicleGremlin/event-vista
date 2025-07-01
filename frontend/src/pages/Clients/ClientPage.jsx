@@ -8,6 +8,7 @@ import ClientSearch from "./ClientSearch";
 import ClientSearchResults from "./ClientSearchResults";
 import Modal from "../../components/common/Modal/Modal";
 import Sidebar from "../Dashboard/Sidebar";
+import Breadcrumbs from '../../pages/Dashboard/Breadcrumbs';
 
 const ClientPage = () => {
   const [clients, setClients] = useState([]);
@@ -199,6 +200,9 @@ const ClientPage = () => {
             <div className="profile-layout" style={{ display: "flex", minHeight: "100vh" }}>
                 <Sidebar />
     <div className="container" style={{ padding: "2rem", marginLeft: "200px", flex: 1, boxSizing: "border-box" }}>
+
+        <Breadcrumbs />
+
       <div className="dashboard-header">
         <h2 className="dashboard-title">Clients</h2>
         <p className="dashboard-subtitle">Manage your clients</p>

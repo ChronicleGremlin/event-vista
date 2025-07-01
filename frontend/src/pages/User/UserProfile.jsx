@@ -5,6 +5,7 @@ import "../User/UserProfile.css";
 import pencilIcon from "./pencil-icon.png";
 import Sidebar from "../Dashboard/Sidebar";
 import { useAuth } from "../../context/AuthContext";
+import Breadcrumbs from '../../pages/Dashboard/Breadcrumbs';
 
 const UserProfile = () => {
   const [formData, setFormData] = useState({
@@ -191,6 +192,8 @@ const UserProfile = () => {
   return (
       <div className="profile-layout" style={{ display: "flex", minHeight: "100vh" }}>
           <Sidebar />
+      <div style={{ flex: 1, marginLeft: "200px", padding: "1rem" }}>
+            <Breadcrumbs />
     <div className="user-profile-container">
       <h1>{formData.name ? `${formData.name}'s Profile` : 'User Profile'}</h1>
       {errorMessage && <div className="error-message">{errorMessage}</div>}
@@ -298,6 +301,7 @@ const UserProfile = () => {
           )}
         </div>
       </div>
+    </div>
 
       {/* Password Reset Section with Inline Edit */}
       <div className="profile-password-reset">
@@ -352,17 +356,6 @@ const UserProfile = () => {
           Delete Account
         </button>
       </div>
-
-{/*           <div className="back-to-dashboard"> */}
-{/*             <button */}
-{/*               type="button" */}
-{/*               className="back-to-dashboard-button" */}
-{/*               onClick={() => navigate("/dashboard")} */}
-{/*             > */}
-{/*               ← Back to Dashboard */}
-{/*             </button> */}
-{/*           </div> */}
-
     </div>
     </div>
   );

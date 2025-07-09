@@ -1,0 +1,26 @@
+.main-layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+.sidebar {
+  width: 200px;
+  flex-shrink: 0;
+  height: 100vh;
+  position: sticky;
+  top: 0;
+}
+
+.main-content {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  background-color: #fff;
+  box-sizing: border-box;
+}
+
+.page-body {
+  flex: 1;
+  overflow-y: auto;
+}

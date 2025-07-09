@@ -3,9 +3,7 @@ import { userApi, authApi } from "../../services/api";
 import { useNavigate } from "react-router-dom";
 import "../User/UserProfile.css";
 import pencilIcon from "./pencil-icon.png";
-import Sidebar from "../Dashboard/Sidebar";
 import { useAuth } from "../../context/AuthContext";
-import Breadcrumbs from '../../pages/Dashboard/Breadcrumbs';
 
 const UserProfile = () => {
   const [formData, setFormData] = useState({
@@ -189,22 +187,19 @@ const UserProfile = () => {
     return <div>Loading...</div>;
   }
 
-  return (
-      <div className="profile-layout" style={{ display: "flex", minHeight: "100vh" }}>
-          <Sidebar />
-      <div style={{ flex: 1, marginLeft: "200px", padding: "1rem" }}>
-            <Breadcrumbs />
+ return (
     <div className="user-profile-container">
-      <h1>{formData.name ? `${formData.name}'s Profile` : 'User Profile'}</h1>
+      <h1>{formData.name ? `${formData.name}'s Profile` : "User Profile"}</h1>
+
       {errorMessage && <div className="error-message">{errorMessage}</div>}
       {successMessage && <div className="success-message">{successMessage}</div>}
 
-      {/* Profile Header: Picture and Edit Icon */}
+      {/* Profile Header */}
       <div className="profile-header">
         <div className="profile-picture-wrapper">
           {formData.pictureUrl ? (
             <img
-              src={formData.pictureUrl || "/default-avatar.png" }
+              src={formData.pictureUrl || "/default-avatar.png"}
               alt="Profile"
               className="profile-picture"
             />
@@ -216,7 +211,7 @@ const UserProfile = () => {
           <button
             className="edit-icon-button"
             type="button"
-            onClick={() => fileInputRef.current && fileInputRef.current.click()}
+            onClick={() => fileInputRef.current?.click()}
           >
             <img src={pencilIcon} alt="Edit" />
           </button>
@@ -231,7 +226,7 @@ const UserProfile = () => {
         </div>
       </div>
 
-      {/* Profile Details Section */}
+      {/* Profile Details */}
       <div className="profile-details">
         <div className="form-group">
           <label htmlFor="name"><b>Name:</b></label>
@@ -301,9 +296,8 @@ const UserProfile = () => {
           )}
         </div>
       </div>
-    </div>
 
-      {/* Password Reset Section with Inline Edit */}
+      {/* Password Reset */}
       <div className="profile-password-reset">
         <div className="form-group">
           <label htmlFor="password"><b>Password:</b></label>
@@ -331,7 +325,11 @@ const UserProfile = () => {
                 <button type="button" className="save-button" onClick={handleResetPassword}>
                   Update Password
                 </button>
-                <button type="button" className="cancel-button" onClick={() => cancelEditMode("password")}>
+                <button
+                  type="button"
+                  className="cancel-button"
+                  onClick={() => cancelEditMode("password")}
+                >
                   Cancel
                 </button>
               </div>
@@ -339,7 +337,11 @@ const UserProfile = () => {
           ) : (
             <div className="display-field">
               <span>{"********"}</span>
-              <button type="button" className="edit-button" onClick={() => toggleEditMode("password")}>
+              <button
+                type="button"
+                className="edit-button"
+                onClick={() => toggleEditMode("password")}
+              >
                 Edit
               </button>
             </div>
@@ -347,7 +349,7 @@ const UserProfile = () => {
         </div>
       </div>
 
-      {/* Account Actions Section: Update Profile, Delete Account, and Back to Dashboard */}
+      {/* Actions */}
       <div className="user-profile-actions">
         <button type="button" onClick={handleUpdate} className="button button-outline">
           Update Profile
@@ -357,9 +359,7 @@ const UserProfile = () => {
         </button>
       </div>
     </div>
-    </div>
   );
-
 };
 
 export default UserProfile;

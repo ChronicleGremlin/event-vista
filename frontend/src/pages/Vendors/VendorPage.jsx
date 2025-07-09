@@ -7,8 +7,6 @@ import VendorForm from "./VendorForm";
 import VendorSearch from "./VendorSearch";
 import VendorSearchResults from "./VendorSearchResults";
 import Modal from "../../components/common/Modal/Modal";
-import Sidebar from "../Dashboard/Sidebar";
-import Breadcrumbs from '../../pages/Dashboard/Breadcrumbs';
 
 
 const VendorPage = () => {
@@ -257,68 +255,66 @@ const VendorPage = () => {
         );
     }
 
-    return (
-          <div style={{ display: "flex", minHeight: "100vh" }}>
-            <Sidebar />
-        <div className="container" style={{ padding: "2rem", marginLeft: "200px", flex: 1, boxSizing: "border-box" }}>
+  return (
+    <div className="vendor-page-content">
+      <div className="dashboard-header">
+        <h2 className="dashboard-title">Vendors</h2>
+        <p className="dashboard-subtitle">Manage your event vendors</p>
 
-            <Breadcrumbs />
+        <VendorSearch
+          searchTerm={searchTerm}
+          setSearchTerm={setSearchTerm}
+          searchType={searchType}
+          setSearchType={setSearchType}
+          onSearch={handleSearch}
+        />
 
-          <div className="dashboard-header">
-            <h2 className="dashboard-title">Vendors</h2>
-            <p className="dashboard-subtitle">Manage your event vendors</p>
+        <div style={{ marginTop: "1rem" }}>
+          <button
+            className="button button-primary"
+            onClick={handleAddVendor}
+          >
+            Add New Vendor
+          </button>
+          <button
+            className="button button-secondary"
+            onClick={handleViewAll}
+            style={{ marginLeft: "1rem" }}
+          >
+            View All
+          </button>
+        </div>
+      </div>
 
-            <VendorSearch
-              searchTerm={searchTerm}
-              setSearchTerm={setSearchTerm}
-              searchType={searchType}
-              setSearchType={setSearchType}
-              onSearch={handleSearch}
-            />
+      {error && (
+        <div className="error-message" style={{ marginBottom: "1rem" }}>
+          {error}
+        </div>
+      )}
 
-            <button
-              className="button button-primary"
-              onClick={handleAddVendor}
-              style={{ marginTop: "1rem" }}
-            >
-              Add New Vendor
-            </button>
-            <button
-                className="button button-secondary"
-                onClick={handleViewAll}
-                style={{ marginTop: "1rem", marginLeft: "1rem" }}
-            >
-                View All
-            </button>
-          </div>
+      <VendorSearchResults
+        vendors={searchResults}
+        onEdit={handleEditVendor}
+        onDelete={handleDeleteVendor}
+      />
 
-          {error && (
-            <div className="error-message" style={{ marginBottom: "1rem" }}>
-              {error}
-            </div>
-          )}
-
-          <VendorSearchResults
-            vendors={searchResults}
-            onEdit={handleEditVendor}
-            onDelete={handleDeleteVendor}
+      {showVendorForm && (
+        <Modal onClose={() => {
+          setShowVendorForm(false);
+          setSelectedVendor(null);
+        }}>
+          <VendorForm
+            initialData={selectedVendor}
+            onSubmit={handleVendorSubmit}
+            onCancel={() => {
+              setShowVendorForm(false);
+              setSelectedVendor(null);
+            }}
           />
-
-          {showVendorForm && (
-            <Modal onClose={() => setShowVendorForm(false)}>
-              <VendorForm
-                initialData={selectedVendor}
-                onSubmit={handleVendorSubmit}
-                onCancel={() => {
-                          setShowVendorForm(false);
-                          setSelectedVendor(null);
-              }}
-              />
-            </Modal>
-          )}
-        </div>
-        </div>
-    );
+        </Modal>
+      )}
+    </div>
+  );
 };
 
 export default VendorPage;

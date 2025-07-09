@@ -13,6 +13,7 @@ import "./App.css";
 import Welcome from "./pages/Welcome/Welcome";
 import OAuth2RedirectHandler from "./pages/User/OAuth2RedirectHandler";
 import UserProfile from "./pages/User/UserProfile";
+import MainLayout from "./components/common/MainLayout";
 
 // Protected Route component
 const ProtectedRoute = ({ children }) => {
@@ -34,32 +35,34 @@ function App() {
     <AuthProvider>
       <div className="App">
         <Routes>
-            <Route path="/" element={<Welcome />} />
+          {/* Public Routes */}
+          <Route path="/" element={<Welcome />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/verify-email" element={<VerifyEmail />} />
           <Route path="/reset-password" element={<ResetPassword />} />
           <Route path="/oauth2/redirect" element={<OAuth2RedirectHandler />} />
+
+          {/* Protected Routes with Shared Layout */}
           <Route
-            path="/dashboard"
+            path="/"
             element={
               <ProtectedRoute>
-                <Dashboard />
+                <MainLayout />
               </ProtectedRoute>
             }
-          />
-                    <Route
-                      path="/profile"
-                      element={
-                        <ProtectedRoute>
-                          <UserProfile />
-                        </ProtectedRoute>
-                      }
-                    />
-          <Route path="/venues" element={<VenuePage />} />
-          <Route path="/vendors" element={<VendorPage />} />
-          <Route path="/clients" element={<ClientPage />} />
-          <Route path="/" element={<Navigate to="/dashboard" replace />} />
+          >
+            <Route path="dashboard" element={<Dashboard />} />
+            <Route path="venues" element={<VenuePage />} />
+            <Route path="vendors" element={<VendorPage />} />
+            <Route path="clients" element={<ClientPage />} />
+            <Route path="profile" element={<UserProfile />} />
+            {/* Default route when inside layout */}
+            <Route index element={<Navigate to="dashboard" replace />} />
+          </Route>
+
+          {/* Catch-all for unknown routes */}
+          <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </div>
     </AuthProvider>

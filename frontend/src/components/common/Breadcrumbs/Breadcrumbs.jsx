@@ -15,13 +15,12 @@ function Breadcrumbs() {
   const previousPath = location.state?.from || '/dashboard';
   const currentPath = location.pathname;
 
-  if (currentPath === '/dashboard') {
+  if (currentPath === '/dashboard' && previousPath === '/dashboard') {
     return (
       <nav aria-label="breadcrumb" style={{ marginBottom: '1rem' }}>
         <Link to="/" style={{ textDecoration: 'none', color: '#007bff' }}>
-          Welcome
+          Dashboard
         </Link>{' '}
-        / <span>Dashboard</span>
       </nav>
     );
   }

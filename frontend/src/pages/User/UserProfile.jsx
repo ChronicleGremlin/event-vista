@@ -113,7 +113,7 @@ const UserProfile = () => {
         name: false,
         email: false,})
          // Redirect the user to the dashboard
-                navigate("/dashboard");
+                navigate("/app/dashboard");
       })
       .catch((error) => {
         console.error("Error updating profile:", error);

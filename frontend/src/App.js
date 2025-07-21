@@ -15,7 +15,6 @@ import OAuth2RedirectHandler from "./pages/User/OAuth2RedirectHandler";
 import UserProfile from "./pages/User/UserProfile";
 import MainLayout from "./components/common/MainLayout";
 
-// Protected Route component
 const ProtectedRoute = ({ children }) => {
   const { user, loading } = useAuth();
 
@@ -43,9 +42,9 @@ function App() {
           <Route path="/reset-password" element={<ResetPassword />} />
           <Route path="/oauth2/redirect" element={<OAuth2RedirectHandler />} />
 
-          {/* Protected Routes with Shared Layout */}
+          {/* Protected Routes under /app */}
           <Route
-            path="/"
+            path="/app"
             element={
               <ProtectedRoute>
                 <MainLayout />

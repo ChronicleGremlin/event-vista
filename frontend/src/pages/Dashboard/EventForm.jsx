@@ -191,7 +191,9 @@ const EventForm = ({ onSubmit, onCancel }) => {
 
         <form onSubmit={handleSubmit} className={styles.form}>
           <div className={styles.formGroup}>
-            <label className="form-label">Event Name</label>
+            <label className="form-label">
+                Event Name <span className={styles.mandatory}>*</span>
+            </label>
             <input
               type="text"
               name="name"
@@ -206,7 +208,9 @@ const EventForm = ({ onSubmit, onCancel }) => {
           </div>
 
           <div className={styles.formGroup}>
-            <label className="form-label">Date</label>
+            <label className="form-label">
+                Date <span className={styles.mandatory}>*</span>
+            </label>
             <input
               type="date"
               name="date"
@@ -220,14 +224,17 @@ const EventForm = ({ onSubmit, onCancel }) => {
             )}
           </div>
 
-          <div className={styles.formGroup}>
-            <label className="form-label">Time</label>
+          <div className={`${styles.formGroup} ${errors.time ? styles.errorGroup : ""}`}>
+            <label htmlFor="time" className={styles.formLabel}>
+                Time <span className={styles.mandatory}>*</span>
+            </label>
             <input
+              id="time"
               type="time"
               name="time"
               value={formData.time}
               onChange={handleChange}
-              className={`form-input ${errors.time ? styles.error : ""}`}
+              className={`${styles.formInput} ${errors.time ? styles.inputError : ""}`}
               required
             />
             {errors.time && (
@@ -236,7 +243,9 @@ const EventForm = ({ onSubmit, onCancel }) => {
           </div>
 
           <div className={styles.formGroup}>
-            <label className="form-label">Venue</label>
+            <label className="form-label">
+                Venue <span className={styles.mandatory}>*</span>
+            </label>
             <select
               name="venue"
               value={formData.venue?.id || ""}

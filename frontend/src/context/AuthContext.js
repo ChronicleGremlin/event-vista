@@ -85,6 +85,7 @@ export const AuthProvider = ({ children }) => {
     register,
     logout,
     token,
+    setToken,
     isAuthenticated: !!user,
   };
 

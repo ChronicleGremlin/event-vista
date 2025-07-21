@@ -3,24 +3,25 @@ import { Link, useLocation } from 'react-router-dom';
 
 const PATH_NAME_MAP = {
   '/': 'Welcome',
-  '/dashboard': 'Dashboard',
-  '/clients': 'Clients',
-  '/vendors': 'Vendors',
-  '/venues': 'Venues',
-  '/profile': 'User Profile',
+  '/app/dashboard': 'Dashboard',
+  '/app/clients': 'Clients',
+  '/app/vendors': 'Vendors',
+  '/app/venues': 'Venues',
+  '/app/profile': 'User Profile',
 };
 
 function Breadcrumbs() {
   const location = useLocation();
-  const previousPath = location.state?.from || '/dashboard';
+  const previousPath = location.state?.from || '/app/dashboard';
   const currentPath = location.pathname;
 
-  if (currentPath === '/dashboard' && previousPath === '/dashboard') {
+  if (currentPath === '/app/dashboard' && previousPath === '/app/dashboard') {
     return (
       <nav aria-label="breadcrumb" style={{ marginBottom: '1rem' }}>
         <Link to="/" style={{ textDecoration: 'none', color: '#007bff' }}>
-          Dashboard
+          Welcome
         </Link>{' '}
+          / <span> Dashboard </span>
       </nav>
     );
   }

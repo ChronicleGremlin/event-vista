@@ -130,7 +130,9 @@ const VenueForm = ({ initialData, onSubmit, onCancel }) => {
 
       <form onSubmit={handleSubmit}>
         <div className="form-group">
-          <label className="form-label">Venue Name</label>
+          <label className="form-label">
+              Venue Name <span className={styles.mandatory}>*</span>
+          </label>
           <input
             type="text"
             name="name"
@@ -143,7 +145,9 @@ const VenueForm = ({ initialData, onSubmit, onCancel }) => {
         </div>
 
         <div className="form-group">
-          <label className="form-label">Location</label>
+          <label className="form-label">
+              Location <span className={styles.mandatory}>*</span>
+          </label>
           <input
             type="text"
             name="location"
@@ -158,7 +162,9 @@ const VenueForm = ({ initialData, onSubmit, onCancel }) => {
         </div>
 
         <div className="form-group">
-          <label className="form-label">Email Address</label>
+          <label className="form-label">
+              Email Address <span className={styles.mandatory}>*</span>
+          </label>
           <input
             type="email"
             name="emailAddress"
@@ -173,7 +179,9 @@ const VenueForm = ({ initialData, onSubmit, onCancel }) => {
         </div>
 
         <div className="form-group">
-          <label className="form-label">Phone Number</label>
+          <label className="form-label">
+              Phone Number <span className={styles.mandatory}>*</span>
+          </label>
           <input
             type="tel"
             name="phoneNumber"
@@ -189,7 +197,9 @@ const VenueForm = ({ initialData, onSubmit, onCancel }) => {
         </div>
 
         <div className="form-group">
-          <label className="form-label">Capacity</label>
+          <label className="form-label">
+              Capacity <span className={styles.mandatory}>*</span>
+          </label>
           <input
             type="number"
             name="capacity"

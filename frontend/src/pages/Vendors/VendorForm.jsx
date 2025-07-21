@@ -388,7 +388,9 @@ const VendorForm = ({ initialData, onSubmit, onCancel }) => {
 
           <form onSubmit={handleSubmit}>
             <div className="form-group">
-              <label className="form-label">Vendor Name</label>
+              <label className="form-label">
+                  Vendor Name <span className={styles.mandatory}>*</span>
+              </label>
               <input
                 type="text"
                 name="name"
@@ -401,7 +403,9 @@ const VendorForm = ({ initialData, onSubmit, onCancel }) => {
             </div>
 
             <div className="form-group">
-              <label className="form-label">Location</label>
+              <label className="form-label">
+                  Location <span className={styles.mandatory}>*</span>
+              </label>
               <input
                 type="text"
                 name="location"
@@ -416,7 +420,9 @@ const VendorForm = ({ initialData, onSubmit, onCancel }) => {
             </div>
 
             <div className="form-group">
-              <label className="form-label">Email Address</label>
+              <label className="form-label">
+                  Email Address <span className={styles.mandatory}>*</span>
+              </label>
               <input
                 type="email"
                 name="emailAddress"
@@ -431,7 +437,9 @@ const VendorForm = ({ initialData, onSubmit, onCancel }) => {
             </div>
 
             <div className="form-group">
-              <label className="form-label">Phone Number</label>
+              <label className="form-label">
+                  Phone Number <span className={styles.mandatory}>*</span>
+              </label>
               <input
                 type="tel"
                 name="phoneNumber"
@@ -447,7 +455,9 @@ const VendorForm = ({ initialData, onSubmit, onCancel }) => {
             </div>
 
             <div className="form-group">
-              <label className="form-label">Skills</label>
+              <label className="form-label">
+                  Skills <span className={styles.mandatory}>*</span>
+              </label>
               <CreatableSelect
                 isMulti
                 name="skills"

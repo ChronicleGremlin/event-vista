@@ -16,7 +16,7 @@ const Login = () => {
 
   // Get return URL from query params
   const searchParams = new URLSearchParams(location.search);
-  const returnUrl = searchParams.get("returnUrl") || "/dashboard";
+  const returnUrl = searchParams.get("returnUrl") || "/app/dashboard";
 
   // Redirect if already logged in
   useEffect(() => {

@@ -10,35 +10,35 @@ const Sidebar = () => {
       <h2 className="sidebar-title">Event Vista</h2>
       <nav className="sidebar-nav">
         <NavLink
-          to="/dashboard"
+          to="/app/dashboard"
           className="sidebar-link"
           state={{ from: location.pathname }}
         >
           Dashboard
         </NavLink>
         <NavLink
-          to="/profile"
+          to="/app/profile"
           className="sidebar-link"
           state={{ from: location.pathname }}
         >
           User Profile
         </NavLink>
         <NavLink
-          to="/vendors"
+          to="/app/vendors"
           className="sidebar-link"
           state={{ from: location.pathname }}
         >
           Vendors
         </NavLink>
         <NavLink
-          to="/venues"
+          to="/app/venues"
           className="sidebar-link"
           state={{ from: location.pathname }}
         >
           Venues
         </NavLink>
         <NavLink
-          to="/clients"
+          to="/app/clients"
           className="sidebar-link"
           state={{ from: location.pathname }}
         >

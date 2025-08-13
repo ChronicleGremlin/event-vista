@@ -108,3 +108,7 @@
 .cancelButton:hover {
   background-color: #f5f3ff;
 }
+
+.mandatory {
+  color: #dc3545;
+}

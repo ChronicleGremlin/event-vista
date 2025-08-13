@@ -1,48 +1,46 @@
 
+/* User Profile Container       */
 
-
-/*
-/* Overall page container*/
 .user-profile-container {
   max-width: 600px;
-  margin: 3rem auto;
   width: 100%;
-  marginLeft: "500px";
-  box-sizing: border-box;
+  margin: 3rem auto;
   padding: 2rem;
-  background-color: #fdfaf4; /* A light cream color to mimic the screenshot background */
+  box-sizing: border-box;
+  background-color: #fdfaf4;
   border-radius: 8px;
   font-family: "Helvetica Neue", Arial, sans-serif;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    position: relative; /* For absolute positioning of child elements */
-    overflow: hidden; /* To contain the profile picture edit icon */
-    h1 {
-      font-size: 2rem;
-      margin-bottom: 1rem;
-      text-align: center;
-      color: #333; /* Darker text for better readability */
-    }
+  position: relative;
+  overflow: hidden;
 }
 
-/* Profile picture section */
+.user-profile-container h1 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  text-align: center;
+  color: #333;
+}
+
+/* Profile Picture Section      */
+
+
 .profile-picture-wrapper {
   position: relative;
   width: 130px;
   height: 130px;
-  margin: 0 auto 1.5rem auto;
+  margin: 0 auto 1.5rem;
 }
 
-/* Large circle placeholder for the profile picture */
 .profile-picture {
   width: 130px;
   height: 130px;
   border-radius: 50%;
-  background-color: #ccc; /* Fallback color if no picture is loaded */
+  background-color: #ccc;
   display: block;
   object-fit: cover;
 }
 
-/* Pencil/edit icon in the top-right of the circle */
 .profile-picture-edit {
   position: absolute;
   top: -10px;
@@ -58,90 +56,6 @@
   justify-content: center;
 }
 
-/* Basic styling for the form */
-.user-profile-form {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem; /* Spacing between fields */
-  margin: 0 auto;
-  max-width: 300px; /* Narrower form area */
-}
-
-/* Labels for Username, Email, New Password, etc. */
-.user-profile-form label {
-  font-weight: 500;
-  margin-bottom: 0.25rem;
-  color: #333;
-}
-
-/* Input fields */
-.user-profile-form input[type="text"],
-.user-profile-form input[type="email"],
-.user-profile-form input[type="password"] {
-  padding: 0.5rem;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  width: 100%;
-  box-sizing: border-box;
-}
-
-/* Action buttons (Save, Delete) container */
-.user-profile-actions {
-  display: flex;
-  justify-content: center;
-  gap: 1rem;
-  margin-top: 1.5rem;
-}
-
-/* Save button */
-.save-button {
-  padding: 0.6rem 1.5rem;
-  background-color: #367bbc; /* A blue tone for the “Save” button */
-  border: none;
-  border-radius: 4px;
-  color: #fff;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-}
-
-.save-button:hover {
-  background-color: #2c6aa6;
-}
-
-/* Delete Account button */
-.delete-button {
-  padding: 0.6rem 1.5rem;
-  background-color: #f44336; /* A red tone for the “Delete Account” button */
-  border: none;
-  border-radius: 4px;
-  color: #fff;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-}
-
-.delete-button:hover {
-  background-color: #d32f2f;
-}
-
-/* Success and error messages */
-.success-message,
-.error-message {
-  margin-bottom: 1rem;
-  text-align: center;
-  font-weight: 500;
-}
-
-.success-message {
-  color: #388e3c; /* greenish tone */
-}
-
-.error-message {
-  color: #d32f2f; /* red tone */
-}
-
-/* Pencil icon button in the top-right corner */
 .edit-icon-button {
   position: absolute;
   top: 0;
@@ -161,13 +75,120 @@
   object-fit: contain;
 }
 
+/* Forms                        */
+
+.user-profile-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin: 0 auto;
+  max-width: 300px;
+}
+
+.user-profile-form label {
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+  color: #333;
+}
+
+.user-profile-form input[type="text"],
+.user-profile-form input[type="email"],
+.user-profile-form input[type="password"] {
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Sections                      */
+
+.profile-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.profile-details,
+.profile-password-reset {
+  background-color: #ffffff;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+}
+
+.profile-details {
+  margin-bottom: 1.5rem;
+}
+
+.profile-password-reset {
+  margin-top: 2rem;
+}
+
+/* Action Buttons                */
+
+.user-profile-actions,
+.account-actions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.save-button {
+  padding: 0.6rem 1.5rem;
+  background-color: #367bbc;
+  border: none;
+  border-radius: 4px;
+  color: #fff;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.save-button:hover {
+  background-color: #2c6aa6;
+}
+
+.delete-button {
+  padding: 0.6rem 1.5rem;
+  background-color: #f44336;
+  border: none;
+  border-radius: 4px;
+  color: #fff;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.delete-button:hover {
+  background-color: #d32f2f;
+}
+
+/* Misc Utility & UI            */
+
+.success-message,
+.error-message {
+  margin-bottom: 1rem;
+  text-align: center;
+  font-weight: 500;
+}
+
+.success-message {
+  color: #388e3c;
+}
+
+.error-message {
+  color: #d32f2f;
+}
+
 .display-field {
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
-.edit-button, .cancel-button {
+.edit-button,
+.cancel-button {
   background: none;
   border: none;
   color: #007bff;
@@ -176,18 +197,24 @@
   font-size: 0.9rem;
 }
 
-.edit-button:hover, .cancel-button:hover {
+.edit-button:hover,
+.cancel-button:hover {
   text-decoration: underline;
+}
+
+.inline-actions {
+  margin-top: 0.5rem;
+  display: flex;
+  gap: 0.5rem;
 }
 
 .back-to-dashboard {
   width: 100%;
-  text-align: left;
-  margin-bottom: 1rem;
+  margin-top: 1rem;
+  text-align: center;
   display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
+  justify-content: center;
+  align-items: center;
 }
 
 .back-to-dashboard-button {
@@ -197,100 +224,13 @@
   font-size: 1rem;
   cursor: pointer;
   padding: 0;
-    margin: 0 auto;
-    display: block;
-    text-align: center;
-}
-
-.back-to-dashboard-button:hover {
-  text-decoration: underline;
-}
-
-.account-actions {
-  margin-top: 2rem;
-  display: flex;
-  justify-content: center;
-  gap: 1rem;
-}
-
-.back-to-dashboard-button {
-  background: none;
-  border: none;
-  color: #007bff;
-  cursor: pointer;
-  font-size: 1rem;
-}
-
-.back-to-dashboard-button:hover {
-  text-decoration: underline;
-}
-
-.account-actions {
-  margin-top: 2rem;
-  display: flex;
-  justify-content: center;
-  gap: 1rem;
-}
-
-.inline-actions {
-  margin-top: 0.5rem;
-  display: flex;
-  gap: 0.5rem;
-}
-
-
-.account-actions {
-  margin-top: 2rem;
-  display: flex;
-  justify-content: center;
-  gap: 1rem;
-}
-
-.back-to-dashboard {
-  margin-top: 1rem;
+  margin: 0 auto;
+  display: block;
   text-align: center;
 }
 
-.back-to-dashboard-button {
-  background: none;
-  border: none;
-  color: #007bff;
-  cursor: pointer;
-  font-size: 1rem;
-}
-
 .back-to-dashboard-button:hover {
   text-decoration: underline;
-}
-
-
-/* Profile Header: Typically used to display the profile picture area */
-.profile-header {
-  /* Center the header content */
-  text-align: center;
-  /* Provide some spacing at the bottom */
-  margin-bottom: 2rem;
-}
-
-/* Profile Details: Contains editable fields like username and email */
-.profile-details {
-  /* Use a subtle background (white, with a light shadow) to separate it from the overall page background */
-  background-color: #ffffff;
-  padding: 1.5rem;
-  border-radius: 8px;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
-  margin-bottom: 1.5rem;
-}
-
-/* Profile Password Reset: Section for password changes */
-.profile-password-reset {
-  /* Similar styling to profile-details for consistency */
-  background-color: #ffffff;
-  padding: 1.5rem;
-  border-radius: 8px;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
-  /* Separate it from the details above */
-  margin-top: 2rem;
 }
 
 .dashboard-profile-pic {
@@ -300,15 +240,20 @@
   object-fit: cover;
 }
 
-* Buttons */
+.mandatory {
+  color: #dc3545;
+}
+
+/* Button Utility Classes        */
+
 .button {
   padding: var(--spacing-sm) var(--spacing-md);
   border-radius: var(--border-radius-md);
   font-weight: 500;
+  font-size: 1rem;
   cursor: pointer;
   transition: all 0.2s ease;
   border: none;
-  font-size: 1rem;
 }
 
 .button-primary {
@@ -339,4 +284,3 @@
   background-color: var(--primary);
   color: white;
 }
-

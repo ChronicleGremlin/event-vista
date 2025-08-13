@@ -130,3 +130,7 @@
   margin-top: 0.5rem;
   text-align: left;
 }
+
+.mandatory {
+  color: #dc3545;
+}

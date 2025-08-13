@@ -13,36 +13,40 @@ const UserProfile = () => {
     pictureUrl: "",
   });
 
-    const [passwordData, setPasswordData] = useState({
-      newPassword: "",
-      confirmPassword: ""
-    });
+  const [originalData, setOriginalData] = useState({});
+  const [passwordData, setPasswordData] = useState({
+    newPassword: "",
+    confirmPassword: ""
+  });
 
-    const [selectedFile, setSelectedFile] = useState(null);
-    const [editMode, setEditMode] = useState({
-      name: false,
-      email: false,
-        password: false,
-    });
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [editMode, setEditMode] = useState({
+    name: false,
+    email: false,
+    password: false,
+  });
+
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
-  const { setUser } = useAuth(); // Get user from AuthContext
 
-  const fileInputRef = useRef(null); // Create a ref for file input
+  const navigate = useNavigate();
+  const { setUser } = useAuth();
+  const fileInputRef = useRef(null);
 
   useEffect(() => {
     setLoading(true);
-    authApi
-      .getCurrentUser()
+    authApi.getCurrentUser()
       .then((response) => {
-        setFormData({
-          id: response.data.id,
-          name: response.data.name,
-          emailAddress: response.data.emailAddress,
-          pictureUrl: response.data.pictureUrl || "",
-        });
+        const { id, name, emailAddress, pictureUrl } = response.data;
+        const profile = {
+          id,
+          name,
+          emailAddress,
+          pictureUrl: pictureUrl || "",
+        };
+        setFormData(profile);
+        setOriginalData(profile);
         setLoading(false);
       })
       .catch((error) => {
@@ -54,114 +58,114 @@ const UserProfile = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-//  const handleFileChange = (e) => {
-//    setSelectedFile(e.target.files[0]);
-//  };
+  const handlePasswordChange = (e) => {
+    const { name, value } = e.target;
+    setPasswordData((prev) => ({ ...prev, [name]: value }));
+  };
 
-  // Updated handleFileChange to convert file to Base64
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     setSelectedFile(file);
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        // Set the pictureUrl with the Base64 string
-        console.log("Converted image:", reader.result);
-        setFormData((prevData) => ({
-          ...prevData,
-          pictureUrl: reader.result,
-        }));
+        setFormData((prev) => ({ ...prev, pictureUrl: reader.result }));
       };
       reader.readAsDataURL(file);
     }
   };
 
-  // Toggle edit mode
   const toggleEditMode = (field) => {
     setEditMode((prev) => ({ ...prev, [field]: true }));
   };
+
   const cancelEditMode = (field) => {
-    // Optionally, you could reset the value for the field here,
-    // for now we simply set editMode for the field back to false.
+    if (field === "name" || field === "email") {
+      setFormData((prev) => ({ ...prev, [field]: originalData[field] }));
+    } else if (field === "password") {
+      setPasswordData({ newPassword: "", confirmPassword: "" });
+    }
     setEditMode((prev) => ({ ...prev, [field]: false }));
   };
 
-  const handleUpdate = (e) => {
-    e.preventDefault();
-    setLoading(true);
-        // If pictureUrl is an empty string, change it to null before sending.
-        const updatedData = {
-          ...formData,
-          pictureUrl: formData.pictureUrl.trim() === "" ? null : formData.pictureUrl,
-        };
-    console.log("Data being updated:", updatedData);
-
-    userApi.updateUser(updatedData)
-      .then(() => {
-        setSuccessMessage("Profile updated successfully!");
-        setErrorMessage("");
-        setLoading(false);
-        setUser(updatedData); // Update user in AuthContext
-        // Exit edit mode after update
-        setEditMode({
-        name: false,
-        email: false,})
-         // Redirect the user to the dashboard
-                navigate("/app/dashboard");
-      })
-      .catch((error) => {
-        console.error("Error updating profile:", error);
-        setErrorMessage("Failed to update profile.");
-        setSuccessMessage("");
-        setLoading(false);
-      });
+  const isProfileChanged = () => {
+    return (
+      formData.name !== originalData.name ||
+      formData.emailAddress !== originalData.emailAddress ||
+      formData.pictureUrl !== originalData.pictureUrl
+    );
   };
 
-  // New handler for resetting password
-    const handleResetPassword = (e) => {
-      e.preventDefault();
-      // Basic validation: Ensure password fields are not empty and match
-      if (!passwordData.newPassword || passwordData.newPassword !== passwordData.confirmPassword) {
-        setErrorMessage("Passwords do not match or are empty.");
-        return;
-      }
-      setLoading(true);
-      authApi.resetPassword({
-        emailAddress: formData.emailAddress,
-        newPassword: passwordData.newPassword,
-        verifyPassword: passwordData.confirmPassword
-      })
-        .then(() => {
-          setSuccessMessage("Password reset successfully!");
-          setErrorMessage("");
-          setLoading(false);
-                // Clear the password fields and exit edit mode for password
-                setPasswordData({ newPassword: "", confirmPassword: "" });
-                setEditMode((prev) => ({ ...prev, password: false }));
-          // Optionally, redirect to login if needed:
-          navigate("/login");
-        })
-        .catch((error) => {
-          console.error("Error resetting password:", error);
-          setErrorMessage("Failed to reset password.");
-          setSuccessMessage("");
-          setLoading(false);
-        });
-    };
+  const handleUpdate = async (e) => {
+    e.preventDefault();
 
-    const handlePasswordChange = (e) => {
-      const { name, value } = e.target;
-      setPasswordData((prev) => ({
-        ...prev,
-        [name]: value,
-      }));
-    };
+    // Validation
+    if (!formData.name.trim() || !formData.emailAddress.trim()) {
+      setErrorMessage("Name and Email are mandatory fields.");
+      return;
+    }
+
+    const passwordFieldsFilled = editMode.password &&
+      (passwordData.newPassword || passwordData.confirmPassword);
+
+    if (editMode.password && (!passwordData.newPassword || !passwordData.confirmPassword)) {
+      setErrorMessage("Please fill in both password fields.");
+      return;
+    }
+
+    if (
+      editMode.password &&
+      passwordData.newPassword !== passwordData.confirmPassword
+    ) {
+      setErrorMessage("Passwords do not match.");
+      return;
+    }
+
+    if (!isProfileChanged() && !passwordFieldsFilled) {
+      setErrorMessage("No changes detected. Please modify a field before updating.");
+      return;
+    }
+
+    setLoading(true);
+    setErrorMessage("");
+    setSuccessMessage("");
+
+    try {
+      // Profile update
+      const updatedData = {
+        ...formData,
+        pictureUrl: formData.pictureUrl?.trim() === "" ? null : formData.pictureUrl,
+      };
+
+      await userApi.updateUser(updatedData);
+      setUser(updatedData);
+
+      // Password update (if applicable)
+      if (passwordFieldsFilled) {
+        await authApi.resetPassword({
+          emailAddress: formData.emailAddress,
+          newPassword: passwordData.newPassword,
+          verifyPassword: passwordData.confirmPassword
+        });
+        setPasswordData({ newPassword: "", confirmPassword: "" });
+      }
+
+      setSuccessMessage("Profile updated successfully!");
+      setOriginalData(updatedData);
+      setEditMode({ name: false, email: false, password: false });
+
+      navigate("/app/dashboard");
+
+    } catch (error) {
+      console.error("Error updating profile:", error);
+      setErrorMessage("Failed to update profile.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleDelete = () => {
     if (window.confirm("Are you sure you want to delete your profile?")) {
@@ -172,7 +176,7 @@ const UserProfile = () => {
           setSuccessMessage("Profile deleted successfully!");
           setErrorMessage("");
           setLoading(false);
-          //navigate("/login"); // Redirect to login page
+          navigate("/login");
         })
         .catch((error) => {
           console.error("Error deleting profile:", error);
@@ -183,36 +187,23 @@ const UserProfile = () => {
     }
   };
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
+  if (loading) return <div>Loading...</div>;
 
- return (
+  return (
     <div className="user-profile-container">
       <h1>{formData.name ? `${formData.name}'s Profile` : "User Profile"}</h1>
 
       {errorMessage && <div className="error-message">{errorMessage}</div>}
       {successMessage && <div className="success-message">{successMessage}</div>}
 
-      {/* Profile Header */}
       <div className="profile-header">
         <div className="profile-picture-wrapper">
           {formData.pictureUrl ? (
-            <img
-              src={formData.pictureUrl || "/default-avatar.png"}
-              alt="Profile"
-              className="profile-picture"
-            />
+            <img src={formData.pictureUrl} alt="Profile" className="profile-picture" />
           ) : (
-            <div className="profile-picture-placeholder">
-              <span>No Image</span>
-            </div>
+            <div className="profile-picture-placeholder"><span>No Image</span></div>
           )}
-          <button
-            className="edit-icon-button"
-            type="button"
-            onClick={() => fileInputRef.current?.click()}
-          >
+          <button className="edit-icon-button" type="button" onClick={() => fileInputRef.current?.click()}>
             <img src={pencilIcon} alt="Edit" />
           </button>
           <input
@@ -226,137 +217,61 @@ const UserProfile = () => {
         </div>
       </div>
 
-      {/* Profile Details */}
       <div className="profile-details">
         <div className="form-group">
-          <label htmlFor="name"><b>Name:</b></label>
+          <label htmlFor="name"><b>Name: </b>{editMode.name && <span className="mandatory">*</span>}</label>
           {editMode.name ? (
             <>
-              <input
-                type="text"
-                id="name"
-                name="name"
-                value={formData.name}
-                onChange={handleChange}
-                required
-              />
-              <button
-                type="button"
-                className="cancel-button"
-                onClick={() => cancelEditMode("name")}
-              >
-                Cancel
-              </button>
+              <input type="text" id="name" name="name" value={formData.name} onChange={handleChange} required />
+              <button type="button" className="cancel-button" onClick={() => cancelEditMode("name")}>Cancel</button>
             </>
           ) : (
             <div className="display-field">
               <span>{formData.name}</span>
-              <button
-                type="button"
-                className="edit-button"
-                onClick={() => toggleEditMode("name")}
-              >
-                Edit
-              </button>
+              <button type="button" className="edit-button" onClick={() => toggleEditMode("name")}>Edit</button>
             </div>
           )}
         </div>
 
         <div className="form-group">
-          <label htmlFor="emailAddress"><b>Email Address:</b></label>
+          <label htmlFor="emailAddress"><b>Email Address: </b>{editMode.email && <span className="mandatory">*</span>}</label>
           {editMode.email ? (
             <>
-              <input
-                type="email"
-                id="emailAddress"
-                name="emailAddress"
-                value={formData.emailAddress}
-                onChange={handleChange}
-                required
-              />
-              <button
-                type="button"
-                className="cancel-button"
-                onClick={() => cancelEditMode("email")}
-              >
-                Cancel
-              </button>
+              <input type="email" id="emailAddress" name="emailAddress" value={formData.emailAddress} onChange={handleChange} required />
+              <button type="button" className="cancel-button" onClick={() => cancelEditMode("email")}>Cancel</button>
             </>
           ) : (
             <div className="display-field">
               <span>{formData.emailAddress}</span>
-              <button
-                type="button"
-                className="edit-button"
-                onClick={() => toggleEditMode("email")}
-              >
-                Edit
-              </button>
+              <button type="button" className="edit-button" onClick={() => toggleEditMode("email")}>Edit</button>
             </div>
           )}
         </div>
       </div>
 
-      {/* Password Reset */}
       <div className="profile-password-reset">
         <div className="form-group">
-          <label htmlFor="password"><b>Password:</b></label>
+          <label htmlFor="password"><b>Password: </b>{editMode.password && <span className="mandatory">*</span>}</label>
           {editMode.password ? (
             <>
-              <input
-                type="password"
-                id="newPassword"
-                name="newPassword"
-                placeholder="New Password"
-                value={passwordData.newPassword}
-                onChange={handlePasswordChange}
-                required
-              />
-              <input
-                type="password"
-                id="confirmPassword"
-                name="confirmPassword"
-                placeholder="Confirm New Password"
-                value={passwordData.confirmPassword}
-                onChange={handlePasswordChange}
-                required
-              />
+              <input type="password" id="newPassword" name="newPassword" placeholder="New Password" value={passwordData.newPassword} onChange={handlePasswordChange} required />
+              <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm New Password" value={passwordData.confirmPassword} onChange={handlePasswordChange} required />
               <div className="inline-actions">
-                <button type="button" className="save-button" onClick={handleResetPassword}>
-                  Update Password
-                </button>
-                <button
-                  type="button"
-                  className="cancel-button"
-                  onClick={() => cancelEditMode("password")}
-                >
-                  Cancel
-                </button>
+                <button type="button" className="cancel-button" onClick={() => cancelEditMode("password")}>Cancel</button>
               </div>
             </>
           ) : (
             <div className="display-field">
               <span>{"********"}</span>
-              <button
-                type="button"
-                className="edit-button"
-                onClick={() => toggleEditMode("password")}
-              >
-                Edit
-              </button>
+              <button type="button" className="edit-button" onClick={() => toggleEditMode("password")}>Edit</button>
             </div>
           )}
         </div>
       </div>
 
-      {/* Actions */}
       <div className="user-profile-actions">
-        <button type="button" onClick={handleUpdate} className="button button-outline">
-          Update Profile
-        </button>
-        <button type="button" onClick={handleDelete} className="button button-secondary">
-          Delete Account
-        </button>
+        <button type="button" onClick={handleUpdate} className="button button-outline">Update Profile</button>
+        <button type="button" onClick={handleDelete} className="button button-secondary">Delete Account</button>
       </div>
     </div>
   );
